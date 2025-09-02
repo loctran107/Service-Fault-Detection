@@ -27,12 +27,17 @@ def main():
 
             # Convert back to BGR for OpenCV
             image = cv2.cvtColor(image, cv2.COLOR_RGB2BGR)
-            print(returned) # Print detection results
+            #print(returned) # Print detection results
             
-            cv2.imshow("Hand Tracking", frame)
+            # Render the multi hand landmark result.
+            if returned.multi_hand_landmarks:
+                for num, hand in enumerate(returned.multi_hand_landmarks):
+                    mp_drawing.draw_landmarks(image, hand, mp_hands.HAND_CONNECTIONS)
+            
+            cv2.imshow("Hand Tracking", image)
             if cv2.waitKey(10) & 0xFF == ord('q'):
                 break
-            
+
         cap.release()
         cv2.destroyAllWindows()
 
